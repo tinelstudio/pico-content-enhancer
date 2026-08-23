@@ -1,0 +1,15 @@
+# Linux
+*~
+*.swp
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# macOS
+.DS_Store
+._*
+
+# Composer
+/vendor
+/composer.lock

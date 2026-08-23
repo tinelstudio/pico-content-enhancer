@@ -1,0 +1,25 @@
+{
+    "name": "tinelstudio/pico-content-enhancer",
+    "type": "pico-plugin",
+    "description": "Pico CMS plugin: post-process parsed content - image dimensions, table wrappers, heading ids, URL placeholders in meta.",
+    "keywords": ["pico", "pico-plugin", "picocms", "images", "lazy-loading", "accessibility"],
+    "homepage": "https://github.com/tinelstudio/pico-content-enhancer",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "TineL Studio",
+            "homepage": "https://tinelstudio.net"
+        }
+    ],
+    "require": {
+        "php": ">=7.2.5"
+    },
+    "autoload": {
+        "classmap": [
+            "TineLContentEnhancer.php"
+        ]
+    },
+    "extra": {
+        "installer-name": "TineLContentEnhancer"
+    }
+}
