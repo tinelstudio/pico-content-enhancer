@@ -16,7 +16,7 @@
  *
  * @author  TineL Studio
  * @license http://opensource.org/licenses/MIT The MIT License
- * @version 1.0.0
+ * @version 1.0.1
  */
 class TineLContentEnhancer extends AbstractPicoPlugin {
     /**
@@ -205,13 +205,17 @@ class TineLContentEnhancer extends AbstractPicoPlugin {
      * @return string
      */
     protected function addHeadingIds($html) {
+        $seen = []; // Reset per page
+
         return preg_replace_callback(
             '#<h([1-6])>(.*?)</h\1>#is',
-            function ($match) {
+            function ($match) use (&$seen) {
                 $text = html_entity_decode(strip_tags($match[2]), ENT_QUOTES, 'UTF-8');
                 $slug = $this->slugify($text);
 
                 if ($slug === '') return $match[0];
+
+                $slug = $this->uniqueSlug($slug, $seen);
 
                 return '<h' . $match[1] . ' id="' . htmlspecialchars($slug, ENT_QUOTES, 'UTF-8') . '">' . $match[2] . '</h' . $match[1] . '>';
             },
@@ -230,6 +234,29 @@ class TineLContentEnhancer extends AbstractPicoPlugin {
     protected function slugify($text) {
         $slug = preg_replace('/[.\s]+/u', '-', trim($text));
         return trim($slug, '-');
+    }
+
+    /**
+     * Returns a slug not yet used on this page, suffixing -2, -3 and so on
+     *
+     * Registers what it hands back as well as what it was asked for, so a heading whose own text slugifies to something like "Foo-2" cannot collide with a suffix generated for an earlier "Foo".
+     *
+     * @param  string   $slug  candidate slug
+     * @param  string[] &$seen slugs already used on this page
+     * @return string
+     */
+    protected function uniqueSlug($slug, array &$seen) {
+        $candidate = $slug;
+        $n = 1;
+
+        while (isset($seen[$candidate])) {
+            $n++;
+            $candidate = $slug . '-' . $n;
+        }
+
+        $seen[$candidate] = true;
+
+        return $candidate;
     }
 
     /**
