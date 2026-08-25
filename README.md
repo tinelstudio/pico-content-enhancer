@@ -69,9 +69,8 @@ hyphen and nothing else changes — **no lowercasing, no stripping of punctuatio
 matches what a typical client-side anchor script produces, so turning this on does not
 invalidate links that already exist somewhere you cannot edit.
 
-Two headings with the same text produce the same id. That is left as it is on purpose: a
-page with two identical headings is a content problem, and silently renaming one to
-`-2` hides it while making the anchor unpredictable to link to.
+Two headings with the same text do not produce the same id. Duplicate slugs get -2, -3
+and so on, so two headings with the same text no longer both point at the first one.
 
 ### 5. Root-relative links
 
